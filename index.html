@@ -3,23 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <title>Dawson Gronemus | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #f9fafb;
+      --text: #222;
+      --card: #fff;
+      --link: #0077cc;
+    }
+
+    .dark {
+      --bg: #0e0e0e;
+      --text: #eaeaea;
+      --card: #1a1a1a;
+      --link: #4dabf7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-      color: #333;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .container {
       max-width: 800px;
-      margin: 40px auto;
-      background: white;
+      margin: 60px auto;
+      background: var(--card);
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       text-align: center;
+      transition: background 0.3s ease;
     }
 
     img {
@@ -34,8 +55,7 @@
     }
 
     h2 {
-      color: #444;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #ccc;
       padding-bottom: 0.3rem;
       margin-top: 2rem;
     }
@@ -46,7 +66,7 @@
     }
 
     a {
-      color: #0077cc;
+      color: var(--link);
       text-decoration: none;
     }
 
@@ -54,15 +74,32 @@
       text-decoration: underline;
     }
 
-    .emoji {
-      font-size: 1.2em;
+    #toggle-theme {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: 2px solid var(--text);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    #toggle-theme:hover {
+      background: var(--text);
+      color: var(--bg);
     }
   </style>
 </head>
 <body>
+  <button id="toggle-theme">🌙 Dark Mode</button>
+
   <div class="container">
     <img src="IMG_2418.jpg" alt="My Photo">
-    <h1>Hey, I'm Dawson <span class="emoji">👋</span></h1>
+    <h1>Hey, I'm Dawson 👋</h1>
     <p>Welcome to my portfolio site hosted on GitHub Pages!</p>
 
     <h2>About Me</h2>
@@ -74,5 +111,32 @@
     <h2>Contact</h2>
     <p>GitHub: <a href="https://github.com/grodaw" target="_blank">github.com/grodaw</a></p>
   </div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggle-theme');
+    const body = document.body;
+
+    function setMode(mode) {
+      if (mode === 'dark') {
+        body.classList.add('dark');
+        toggleBtn.textContent = '☀️ Light Mode';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        body.classList.remove('dark');
+        toggleBtn.textContent = '🌙 Dark Mode';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const current = body.classList.contains('dark') ? 'dark' : 'light';
+      setMode(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Load saved preference
+    const saved = localStorage.getItem('theme');
+    if (saved) setMode(saved);
+  </script>
 </body>
 </html>
+
